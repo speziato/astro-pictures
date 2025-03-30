@@ -33,6 +33,7 @@ export default async () => {
       SourceTypes.ESA_HUBBLE,
     );
     await writePicturesToStorage(pictures, s3.BUCKET_NAME, minio);
+    await minio.writeFile({dest: s3.BUCKET_NAME, filename: "latest.txt", content: Buffer.from(`${esaPicId}`)})
   } else {
     logger.log("picture already exists", { esaPicId });
   }
