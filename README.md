@@ -1,4 +1,4 @@
-# Astro-Picture API
+# Astro-Pictures API
 
 🔭 Unofficial API to retrieve periodically-released astronomy pictures and related metadata from various sources.
 
