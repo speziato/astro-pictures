@@ -30,7 +30,7 @@ export class Logger {
     }),
   });
   log(message: string, ...optionalParams: any[]) {
-    if (APP_LOG_LEVEL in [LOG_LEVEL.INFO, LOG_LEVEL.DEBUG]) {
+    if ([LOG_LEVEL.INFO, LOG_LEVEL.DEBUG].indexOf(APP_LOG_LEVEL) !== -1) {
       console.log(this.getLogMessage(LOG_LEVEL_STRING.INFO, message, ...optionalParams));
     }
   }
