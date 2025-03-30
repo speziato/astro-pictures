@@ -1,0 +1,38 @@
+{
+  "name": "@astro-picture/batch",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf ./dist && tsc",
+    "start:dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts",
+    "start": "node dist/index.js",
+    "test": "echo \"Tests not implemented yet\" && exit 1",
+    "lint": "eslint --ext .ts ./src --fix",
+    "format": "prettier . --ignore-path ../.gitignore --write \"**/*.+(ts|json)\""
+  },
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "minio": "^8.0.5",
+    "node-html-parser": "^7.0.1",
+    "node-schedule": "^2.1.1",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {    
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "@eslint/js": "^9.23.0",
+    "@types/node-schedule": "^2.1.7",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.5",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "tslib": "^2.8.1",
+    "typescript-eslint": "^8.28.0"
+  }
+}

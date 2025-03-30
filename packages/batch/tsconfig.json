@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "node16",
+    "target": "ES2022",
+    "strict": true,
+    "outDir": "dist",
+    "declaration": false,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*node_modules"],
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true
+  }
+}

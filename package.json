@@ -18,7 +18,15 @@
     "install:prod:batch": "npm run ci:batch -- --omit=dev",
     "build:batch": "npm run _batch -- run build",
     "start:dev:batch": "npm run _batch -- run start:dev",
-    "start:prod:batch": "npm run _batch -- start"
+    "start:prod:batch": "npm run _batch -- start",
+
+    "_api": "npm --workspace ./packages/api",
+    "install:api": "npm run _api -- install",
+    "ci:api": "npm run _api -- ci",
+    "install:prod:api": "npm run ci:api -- --omit=dev",
+    "build:api": "npm run _api -- run build",
+    "start:dev:api": "npm run _api -- run start:dev",
+    "start:prod:api": "npm run _api -- start"
   },
   "author": "speziato",
   "license": "MIT",

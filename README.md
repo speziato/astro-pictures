@@ -27,6 +27,14 @@ Then, it creates a bunch of different versions of that image to fit [a variety o
 adds the object's name and credit line to the upper-right corner and writes the results in a bucket.
 <!-- Files in that bucket are used as source for links provided by this API. -->
 
+## Running locally
+
+You can run this project using the provided [compose-dev.yaml](./compose-dev.yaml) file, for example running:
+
+```bash
+podman compose -f compose-dev.yaml --podman-run-args=--replace up --build
+```
+
 ## Tech stack
 
 This project is built with:
