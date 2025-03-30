@@ -1,6 +1,7 @@
 import readEnvConfig from "../config/envConfig.js";
+import { LOG_LEVEL, parseLogLevel } from "../types/LogLevel.js";
 
-enum LOG_LEVEL {
+enum LOG_LEVEL_STRING {
   INFO = "INFO",
   DEBUG = "DEBU",
   WARN = "WARN",
@@ -8,6 +9,7 @@ enum LOG_LEVEL {
 }
 const getTimestamp = () => new Date().toISOString();
 const { APP } = readEnvConfig();
+const APP_LOG_LEVEL = parseLogLevel(APP.LOG_LEVEL)
 
 export class Logger {
   name: string;
@@ -15,7 +17,7 @@ export class Logger {
     this.name = name;
   }
   private getLogMessage = (
-    loglevel: LOG_LEVEL,
+    loglevel: LOG_LEVEL_STRING,
     message: string,
     ...optionalParams: any[]
   ) => ({
@@ -28,23 +30,27 @@ export class Logger {
     }),
   });
   log(message: string, ...optionalParams: any[]) {
-    console.log(this.getLogMessage(LOG_LEVEL.INFO, message, ...optionalParams));
+    if (APP_LOG_LEVEL in [LOG_LEVEL.INFO, LOG_LEVEL.DEBUG]) {
+      console.log(this.getLogMessage(LOG_LEVEL_STRING.INFO, message, ...optionalParams));
+    }
   }
   debug(message: string, ...optionalParams: any[]) {
-    if (APP.LOG_LEVEL === "debug") {
+    if (APP_LOG_LEVEL === LOG_LEVEL.DEBUG) {
       console.debug(
-        this.getLogMessage(LOG_LEVEL.DEBUG, message, ...optionalParams),
+        this.getLogMessage(LOG_LEVEL_STRING.DEBUG, message, ...optionalParams),
       );
     }
   }
   warn(message: string, ...optionalParams: any[]) {
-    console.warn(
-      this.getLogMessage(LOG_LEVEL.WARN, message, ...optionalParams),
+    if (APP_LOG_LEVEL !== LOG_LEVEL.ERROR) {
+      console.warn(
+      this.getLogMessage(LOG_LEVEL_STRING.WARN, message, ...optionalParams),
     );
+  }
   }
   error(message: string, ...optionalParams: any[]) {
     console.error(
-      this.getLogMessage(LOG_LEVEL.ERROR, message, ...optionalParams),
+      this.getLogMessage(LOG_LEVEL_STRING.ERROR, message, ...optionalParams),
     );
   }
 }
