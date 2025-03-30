@@ -1,4 +1,41 @@
 {
-  "name": "apotw-api",
-  "packageManager": "yarn@4.7.0"
+  "name": "astro-pictures",
+  "version": "0.0.1",
+  "description": "🔭 Unofficial API to retrieve periodically-released astronomy pictures and related metadata from various sources.",
+  "main": "index.js",
+  "workspaces": [
+    "packages/",
+    "packages/batch",
+    "packages/api"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --build --verbose",
+
+    "_batch": "npm --workspace ./packages/batch",    
+    "install:batch": "npm run _batch -- install",
+    "ci:batch": "npm run _batch -- ci",
+    "install:prod:batch": "npm run ci:batch -- --omit=dev",
+    "build:batch": "npm run _batch -- run build",
+    "start:dev:batch": "npm run _batch -- run start:dev",
+    "start:prod:batch": "npm run _batch -- start"
+  },
+  "author": "speziato",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "@eslint/js": "^9.23.0",
+    "@types/node-schedule": "^2.1.7",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.5",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "tslib": "^2.8.1",
+    "typescript-eslint": "^8.28.0"
+  }
 }

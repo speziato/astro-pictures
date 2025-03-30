@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "es2022",
+    "module": "NodeNext",
+    "declaration": false,
+    "strict": true,
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true
+  },
+  "files": [
+  ],
+  "references": [
+    {
+      "path": "./packages/batch"
+    },
+    // {
+    //   "path": "./packages/api"
+    // }
+  ]
+}
