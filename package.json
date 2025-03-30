@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "🔭 Unofficial API to retrieve periodically-released astronomy pictures and related metadata from various sources.",
   "main": "index.js",
+  "type": "module",
   "workspaces": [
     "packages/",
     "packages/batch",
