@@ -7,7 +7,7 @@ It aims to be a simple source of image links and metadata in a standardized form
 This repository is composed of:
 
 - [WIP] REST API source to serve metadata and image links;
-- [WIP] Batch job source to process the latest images;
+- Batch job source to process the latest images;
 
 ## Sources
 
@@ -29,7 +29,7 @@ adds the object's name and credit line to the upper-right corner and writes the 
 
 ## Running locally
 
-You can run this project using the provided [compose-dev.yaml](./compose-dev.yaml) file, for example running:
+You can run this project locally using the provided [compose-dev.yaml](./compose-dev.yaml) file, for example with:
 
 ```bash
 podman compose -f compose-dev.yaml --podman-run-args=--replace up --build
@@ -39,7 +39,8 @@ podman compose -f compose-dev.yaml --podman-run-args=--replace up --build
 
 This project is built with:
 
-- Node.js LTS (22.12)
+- [Node.js](https://nodejs.org) LTS (22.12)
+- [Typescript](https://www.typescriptlang.org/) 5.8
 <!-- - Fastify
 - MikroORM with SQLite backend -->
 - [Sharp](https://sharp.pixelplumbing.com/) for image processing
