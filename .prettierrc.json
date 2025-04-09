@@ -4,5 +4,6 @@
   "arrowParens": "avoid",
   "bracketSpacing": true,
   "bracketSameLine": true,
-  "filepath": "./src"
+  "filepath": "./src",
+  "trailingComma": "none"
 }
