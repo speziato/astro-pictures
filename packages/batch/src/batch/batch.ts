@@ -1,10 +1,11 @@
 import readEnvConfig from "../config/envConfig.js";
 import minioFactory from "../factories/minioFactory.js";
-import SourceTypes from "../types/Source/SourceTypes.js";
+import { SourceTypes } from "@astro-pictures/utils";
 import getESAHubblePOTWId from "../utils/getESAHubblePOTWId.js";
-import { Logger } from "../utils/logger.js";
+import Logger from "../utils/logger.js";
 import getPictureAndCreateResolutionVersions from "./getPictureAndCreateResolutionVersions.js";
 import writePicturesToStorage from "./writePicturesToStorage.js";
+import getContentType from "../utils/getContentType.js";
 
 const logger = new Logger("batch");
 const config = readEnvConfig();
@@ -18,22 +19,27 @@ export default async () => {
     parseInt(s3.PORT),
     s3.SSL === "true",
     s3.ACCESS_KEY,
-    s3.SECRET_KEY,
+    s3.SECRET_KEY
   );
   const esaPicId = getESAHubblePOTWId();
   logger.debug("checking if picture already exists", { esaPicId });
   const check = await minio.fileOrDirExists(
     s3.BUCKET_NAME,
-    `${SourceTypes.ESA_HUBBLE}/${esaPicId}`,
+    `${SourceTypes.ESA_HUBBLE}/${esaPicId}`
   );
   if (!check) {
     logger.debug("picture does not exist", { esaPicId });
     const pictures = await getPictureAndCreateResolutionVersions(
       esaPicId,
-      SourceTypes.ESA_HUBBLE,
+      SourceTypes.ESA_HUBBLE
     );
     await writePicturesToStorage(pictures, s3.BUCKET_NAME, minio);
-    await minio.writeFile({dest: s3.BUCKET_NAME, filename: "latest.txt", content: Buffer.from(`${esaPicId}`)})
+    await minio.writeFile({
+      dest: s3.BUCKET_NAME,
+      filename: "latest.txt",
+      content: Buffer.from(`${esaPicId}`),
+      metadata: getContentType("txt")
+    });
   } else {
     logger.log("picture already exists", { esaPicId });
   }

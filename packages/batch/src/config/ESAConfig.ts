@@ -1,4 +1,4 @@
-import SourceConfig from "../types/Source/SourceConfig.js";
+import { SourceConfig } from "@astro-pictures/utils";
 
 const creditQuery = ".credit > p:nth-child(1)";
 const descriptionQuery = ".col-md-9 > p > em";
@@ -15,7 +15,7 @@ const ESAConfig: SourceConfig = {
   getDescriptionUrl: picId => `https://esahubble.org/images/${picId}/`,
   getObjectName: html => html.querySelector(objectQuery)?.innerText || "",
   getPicUrl: picId =>
-    `https://cdn.esahubble.org/archives/images/large/${picId}.jpg`,
+    `https://cdn.esahubble.org/archives/images/large/${picId}.jpg`
 } as const;
 
 export default ESAConfig;

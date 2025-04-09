@@ -7,7 +7,7 @@
 // Returns the ISO week of the date.
 const ISOWeekOfDate = (date = new Date()) => {
   const d = new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0)
   );
   // Thursday in current week decides the year.
   d.setUTCDate(d.getUTCDate() + 3 - ((d.getUTCDay() + 6) % 7));
@@ -20,7 +20,7 @@ const ISOWeekOfDate = (date = new Date()) => {
       ((d.getTime() - week1.getTime()) / 86400000 -
         3 +
         ((week1.getUTCDay() + 6) % 7)) /
-        7,
+        7
     )
   );
 };
@@ -36,7 +36,7 @@ export const weekOfDate = (date = new Date(), iso = false) => {
   if (iso) return ISOWeekOfDate(date);
 
   const d = new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0)
   );
   d.setUTCDate(d.getUTCDate() - d.getUTCDay());
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));

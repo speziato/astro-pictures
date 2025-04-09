@@ -1,4 +1,4 @@
-import SVGOptions from "../types/SVGOptions.js";
+import { SVGOptions } from "@astro-pictures/utils";
 
 export default (text: string, options?: Partial<SVGOptions>) => {
   const defaultOpts: SVGOptions = {
@@ -9,11 +9,11 @@ export default (text: string, options?: Partial<SVGOptions>) => {
     width: 1920,
     height: 1080,
     xOffset: 1900,
-    yOffset: 30,
+    yOffset: 30
   };
   const opts = {
     ...defaultOpts,
-    ...options,
+    ...options
   };
   return Buffer.from(`<svg height="${opts.height}" width="${opts.width}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g transform="translate(0 0)">

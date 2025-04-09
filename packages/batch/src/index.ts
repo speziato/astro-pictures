@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { scheduleJob, RecurrenceSpecDateRange } from "node-schedule";
 import batch from "./batch/batch.js";
-import { Logger } from "./utils/logger.js";
+import Logger from "./utils/logger.js";
 import readEnvConfig from "./config/envConfig.js";
 
 const version = process.env.npm_package_version;
@@ -13,7 +13,7 @@ const TZ = config.APP.TZ || "UTC";
 const logger = new Logger("index");
 const recurrenceRule: RecurrenceSpecDateRange = {
   rule: SCHEDULE,
-  tz: TZ,
+  tz: TZ
 };
 
 logger.log(`Astro-Picture Batch v.${version} started`, { SCHEDULE });
@@ -25,7 +25,7 @@ const cron = scheduleJob(recurrenceRule, async () => {
     await batch();
   } catch (error) {
     logger.error("Error occurred during job execution", {
-      error,
+      error
     });
   }
 
@@ -35,7 +35,7 @@ const cron = scheduleJob(recurrenceRule, async () => {
         .nextInvocation()
         // @ts-expect-error the function `nextInvocation` returns a custom CronDate object, not a Date
         .toDate()
-        .toUTCString()}`,
+        .toUTCString()}`
     );
   }
 });

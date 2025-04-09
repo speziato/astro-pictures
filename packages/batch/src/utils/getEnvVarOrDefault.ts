@@ -9,7 +9,7 @@ type ReturnType<T extends TypeName> = T extends "boolean"
 
 const getEnvVarOrDefault = <T extends ReturnType<TypeName>>(
   varName: string,
-  defaultValue: T,
+  defaultValue: T
 ) => {
   const val = process.env[varName];
   const type = typeof defaultValue as TypeName;

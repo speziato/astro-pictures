@@ -1,13 +1,12 @@
 import { parse } from "node-html-parser";
 import SourceConfigs from "../config/sourceConfigs.js";
-import Picture from "../types/Picture/Picture.js";
-import PictureFactory from "../types/Picture/PictureFactory.js";
+import { Picture, PictureFactory } from "@astro-pictures/utils";
 
 const pictureFactoryImpl: PictureFactory = async (picId, sourceType) => {
   const sourceConfig = SourceConfigs[sourceType];
   const [largeImg, rawHtml] = await Promise.all([
     (await fetch(sourceConfig.getPicUrl(picId))).arrayBuffer(),
-    (await fetch(sourceConfig.getDescriptionUrl(picId))).text(),
+    (await fetch(sourceConfig.getDescriptionUrl(picId))).text()
   ]);
 
   const html = parse(rawHtml);

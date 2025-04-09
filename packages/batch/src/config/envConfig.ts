@@ -1,6 +1,6 @@
 const CONFIGURATION = {
   APP: ["LOG_LEVEL", "SCHEDULE", "TZ"],
-  S3: ["BUCKET_NAME", "ENDPOINT", "PORT", "ACCESS_KEY", "SECRET_KEY", "SSL"],
+  S3: ["BUCKET_NAME", "ENDPOINT", "PORT", "ACCESS_KEY", "SECRET_KEY", "SSL"]
 } as const;
 
 type CONF_SECTIONS = keyof typeof CONFIGURATION;
@@ -26,13 +26,22 @@ const readEnvConfig = () => {
             sectionConf[current] = process.env[`${curr}__${current}`] || "";
             return sectionConf;
           },
-          {} as ObjectFromList<(typeof CONFIGURATION)[CONF_SECTIONS]>,
-        ),
+          {} as ObjectFromList<(typeof CONFIGURATION)[CONF_SECTIONS]>
+        )
       }),
-      {} as APP_CONFIG,
+      {} as APP_CONFIG
     );
   }
   return env;
 };
 let env: APP_CONFIG | undefined = undefined;
+
+export const getConfigKey: <T extends CONF_SECTIONS>(
+  scope: T,
+  key: keyof ObjectFromList<(typeof CONFIGURATION)[T]>
+) => string = (scope, key) => {
+  if (!env) readEnvConfig();
+  return env![scope][key];
+};
+
 export default readEnvConfig;

@@ -1,15 +1,15 @@
+import {
+  DoubleDigit,
+  getPictureFileQuality,
+  Resolution,
+  rgbaColor,
+  SourceTypes
+} from "@astro-pictures/utils";
 import sharp, { Sharp } from "sharp";
 import resolutions from "../config/resolutions.js";
 import pictureFactoryImpl from "../factories/pictureFactoryImpl.js";
-import { rgbaColor } from "../types/Color.js";
-import Resolution from "../types/Resolution.js";
-import SourceTypes from "../types/Source/SourceTypes.js";
+import Logger from "./logger.js";
 import svgTextBuffer from "./svgTextBuffer.js";
-import { Logger } from "./logger.js";
-import PictureFileQuality, {
-  DoubleDigit,
-} from "../types/Picture/PictureFileQuality.js";
-
 const logger = new Logger("createImagesByIdAndTypes");
 
 const getTextSvgOverlay = (conf: {
@@ -26,7 +26,7 @@ const getTextSvgOverlay = (conf: {
       red: "ff",
       green: "ff",
       blue: "ff",
-      alpha: "80",
+      alpha: "80"
     }),
     fontSize: conf.height * conf.fontSizeMultiplier,
     stroke: "black",
@@ -34,7 +34,7 @@ const getTextSvgOverlay = (conf: {
     width: conf.width,
     height: conf.height,
     xOffset: conf.width - conf.xOffset,
-    yOffset: conf.yOffset,
+    yOffset: conf.yOffset
   });
 };
 
@@ -44,7 +44,7 @@ const getSharpTextBuffer = (
   height: number,
   fontSizeMultiplier: number,
   xOffset: number,
-  yOffset: number,
+  yOffset: number
 ) =>
   sharp(
     getTextSvgOverlay({
@@ -53,8 +53,8 @@ const getSharpTextBuffer = (
       height,
       fontSizeMultiplier,
       xOffset,
-      yOffset,
-    }),
+      yOffset
+    })
   )
     .png()
     .toBuffer();
@@ -65,21 +65,21 @@ const putDescriptionInImage = async (
   creditText: string,
   resolution: Resolution,
   output: "jpg" | "png",
-  quality: number,
+  quality: number
 ) => {
   logger.debug("putDescriptionInImage start", {
-    params: { objectName, creditText, resolution },
+    params: { objectName, creditText, resolution }
   });
   const { width, height } = resolution.dimensions;
   try {
     const [svgObjectBuffer, svgCreditBuffer] = await Promise.all([
       getSharpTextBuffer(objectName, width, height, 0.05, 20, height * 0.05),
-      getSharpTextBuffer(creditText, width, height, 0.03, 20, height * 0.1),
+      getSharpTextBuffer(creditText, width, height, 0.03, 20, height * 0.1)
     ]);
     logger.debug("putDescriptionInImage end");
     let composite = sharpImg.composite([
       { input: svgObjectBuffer },
-      { input: svgCreditBuffer },
+      { input: svgCreditBuffer }
     ]);
     if (output === "jpg") {
       composite = composite.jpeg({ quality });
@@ -89,7 +89,7 @@ const putDescriptionInImage = async (
     return composite.toBuffer();
   } catch (error) {
     throw new Error(
-      `Error while putting overlays in image at resolution ${width}x${height}: ${error}`,
+      `Error while putting overlays in image at resolution ${width}x${height}: ${error}`
     );
   }
 };
@@ -98,10 +98,10 @@ const createImagesByIdAndType = async (
   picId: string,
   type: SourceTypes,
   output: "jpg" | "png",
-  quality: DoubleDigit,
+  quality: DoubleDigit
 ) => {
   logger.debug("createImagesByIdAndType start", {
-    params: { picId, type },
+    params: { picId, type }
   });
   const picture = await pictureFactoryImpl(picId, type);
   try {
@@ -113,14 +113,14 @@ const createImagesByIdAndType = async (
 
     const resolutionsWithOriginal = [
       ...resolutions,
-      { name: "original", dimensions: { width, height } },
+      { name: "original", dimensions: { width, height } }
     ];
     return resolutionsWithOriginal.map(async resolution => {
       const image = await sharpImg
         .resize({
           height: resolution.dimensions.height,
           width: resolution.dimensions.width,
-          fit: "cover",
+          fit: "cover"
         })
         .keepMetadata()
         .toBuffer();
@@ -132,14 +132,14 @@ const createImagesByIdAndType = async (
           picture.creditText,
           resolution,
           output,
-          PictureFileQuality(quality),
+          getPictureFileQuality(quality)
         ),
-        resolution: resolution.name,
+        resolution: resolution.name
       };
     });
   } catch (error) {
     logger.error("Error while creating images", {
-      error,
+      error
     });
     throw new Error(`Error while creating images: ${error}`);
   }

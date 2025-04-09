@@ -1,6 +1,6 @@
 import * as Minio from "minio";
-import StorageFactory from "../types/Storage/StorageFactory.js";
-import { Logger } from "../utils/logger.js";
+import { StorageFactory } from "@astro-pictures/utils";
+import Logger from "../utils/logger.js";
 
 const checkIfBucketIsEmpty = (dest: string, minioClient: Minio.Client) => {
   return new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ const checkIfBucketIsEmpty = (dest: string, minioClient: Minio.Client) => {
 
 const readMinioFile = (
   params: { dest: string; filename: string },
-  minioClient: Minio.Client,
+  minioClient: Minio.Client
 ) => {
   return new Promise<Buffer>((resolve, reject) => {
     minioClient
@@ -52,7 +52,7 @@ const minioFactory: StorageFactory = (
   port,
   useSSL,
   accessKey,
-  secretKey,
+  secretKey
 ) => {
   const logger = new Logger(`minio-${endPoint}`);
   logger.debug("minioFactory start", {
@@ -60,14 +60,14 @@ const minioFactory: StorageFactory = (
     port,
     useSSL,
     accessKey,
-    secretKey,
+    secretKey
   });
   const minioClient = new Minio.Client({
     endPoint,
     port,
     useSSL,
     accessKey,
-    secretKey,
+    secretKey
   });
   return {
     createDestination: async dest => {
@@ -79,7 +79,7 @@ const minioFactory: StorageFactory = (
       } catch (error) {
         logger.error("createDestination - bucket creation failed", {
           bucketName: dest,
-          error,
+          error
         });
         return false;
       }
@@ -87,20 +87,20 @@ const minioFactory: StorageFactory = (
     deleteDestination: async (dest, force?) => {
       logger.debug("deleteDestination start", {
         bucketName: dest,
-        force: force || false,
+        force: force || false
       });
       try {
         if (!force) {
           const isEmpty = await checkIfBucketIsEmpty(dest, minioClient);
           if (!isEmpty)
             throw new Error(
-              `Bucket ${dest} is not empty, pass "force: true" to delete it`,
+              `Bucket ${dest} is not empty, pass "force: true" to delete it`
             );
         }
         await minioClient.removeBucket(dest);
         logger.debug("deleteDestination end", {
           bucketName: dest,
-          force: force || false,
+          force: force || false
         });
         return true;
       } catch (error) {
@@ -112,7 +112,7 @@ const minioFactory: StorageFactory = (
       logger.debug("deleteFile start", { params });
       try {
         await minioClient.removeObject(params.dest, params.filename, {
-          forceDelete: params.force,
+          forceDelete: params.force
         });
         return true;
       } catch (error) {
@@ -161,7 +161,7 @@ const minioFactory: StorageFactory = (
         await minioClient.copyObject(
           params.dest,
           params.newFilename,
-          `${params.dest}/${params.filename}`,
+          `${params.dest}/${params.filename}`
         );
         logger.debug("renameFile end", { params });
         return true;
@@ -172,7 +172,7 @@ const minioFactory: StorageFactory = (
     },
     writeFile: async params => {
       logger.debug("writeFile start", {
-        params: { ...params, content: "redacted" },
+        params: { ...params, content: "redacted" }
       });
       try {
         await minioClient.putObject(
@@ -180,20 +180,20 @@ const minioFactory: StorageFactory = (
           params.filename,
           params.content,
           params.content.length,
-          params.metadata,
+          params.metadata
         );
         logger.debug("writeFile end", {
-          params: { ...params, content: "redacted" },
+          params: { ...params, content: "redacted" }
         });
         return true;
       } catch (error) {
         logger.error("Error writing file", {
           params: { ...params, content: "redacted" },
-          error,
+          error
         });
         throw error;
       }
-    },
+    }
   };
 };
 
