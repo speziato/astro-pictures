@@ -1,19 +1,11 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "node16",
-    "target": "ES2022",
-    "strict": true,
-    "outDir": "dist",
-    "declaration": false,
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["**/*node_modules"],
-  "ts-node": {
-    "esm": true,
-    "transpileOnly": true
-  }
+  "references": [{ "path": "../utils" }],
+  "include": ["./src/**/*"]
 }
