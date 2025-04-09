@@ -5,29 +5,30 @@
   "main": "index.js",
   "type": "module",
   "workspaces": [
-    "packages/",
-    "packages/batch",
-    "packages/api"
+    "packages/*"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build --verbose",
+    "clean": "npm run _batch -- run clean && npm run _utils -- run clean",
+    "build": "npm run clean && tsc --build --verbose",
 
     "_batch": "npm --workspace ./packages/batch",    
     "install:batch": "npm run _batch -- install",
     "ci:batch": "npm run _batch -- ci",
     "install:prod:batch": "npm run ci:batch -- --omit=dev",
     "build:batch": "npm run _batch -- run build",
+    "lint:batch": "npm run _batch -- run lint",
     "start:dev:batch": "npm run _batch -- run start:dev",
     "start:prod:batch": "npm run _batch -- start",
 
-    "_api": "npm --workspace ./packages/api",
-    "install:api": "npm run _api -- install",
-    "ci:api": "npm run _api -- ci",
-    "install:prod:api": "npm run ci:api -- --omit=dev",
-    "build:api": "npm run _api -- run build",
-    "start:dev:api": "npm run _api -- run start:dev",
-    "start:prod:api": "npm run _api -- start"
+    "_utils": "npm --workspace ./packages/utils",
+    "install:utils": "npm run _utils -- install",
+    "ci:utils": "npm run _utils -- ci",
+    "install:prod:utils": "npm run ci:utils -- --omit=dev",
+    "build:utils": "npm run _utils -- run build",
+    "lint:utils": "npm run _utils -- run lint",
+    "start:dev:utils": "npm run _utils -- run start:dev",
+    "start:prod:utils": "npm run _utils -- start"
   },
   "author": "speziato",
   "license": "MIT",
